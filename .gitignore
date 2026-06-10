@@ -1,0 +1,22 @@
+# --- Lokalna konfiguracia s osobnymi udajmi ---
+config.py
+
+# --- Prihlaseny profil prehliadaca (cookies, session) — NIKDY necommitovat ---
+owa_session/
+
+# --- Realne data a vzory (obsahuju mena, emaily, firmy) ---
+*.xlsx
+*.eml
+_logo.png
+servis_subory/
+maily_servisom/
+
+# --- Opustene experimenty (slepe ulicky) ---
+_archiv/
+
+# --- Python generated ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
