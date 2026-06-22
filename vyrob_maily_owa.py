@@ -2,12 +2,12 @@
 Vyrobi koncepty (drafts) v Luckinom firemnom Outlook Web (OWA) cez Playwright.
 
 Tato verzia bezi na Marcelovom PC (kde sa da slobodne instalovat). Po prvom
-spusteni sa otvori Chrome a Lucka sa fyzicky prihlasi (heslo + 2FA) do
+spusteni sa otvori Chrome a Eva sa fyzicky prihlasi (heslo + 2FA) do
 outlook.office365.com. Session sa ulozi do priecinka `owa_session/`, takze
 dalsie spustenia uz prihlasenie nevyzaduju.
 
 Skript NIKDY neodosiela. Vsetky maily konci v priecinku Koncepty (Drafts).
-Lucka ich v svojom korporatnom Outlooku skontroluje a klikne Send.
+Eva ich v svojom korporatnom Outlooku skontroluje a klikne Send.
 
 Pouzitie:
     pip install playwright openpyxl
@@ -184,7 +184,7 @@ def _find_outlook_page(context):
 
 
 def wait_for_login(context, page, timeout_ms: int = 10 * 60_000):
-    """Pocka, kym je Lucka prihlasena a vidi inbox.
+    """Pocka, kym je Eva prihlasena a vidi inbox.
 
     Sleduje VSETKY otvorene taby (OWA pri SSO presmerovanie obcas otvori novy
     tab). Po nastavenom intervale skenuje context.pages a hlada page na
@@ -374,6 +374,30 @@ def compose_one_draft(page, *, to_addr, subject, html_body, attachment_path: Pat
 
 # ---------- main ----------
 
+def launch_owa_context(p):
+    """Spustí systémový Chrome Stable s uloženou session (owa_session/).
+
+    channel="chrome" -> systémový Chrome (nie Chrome for Testing).
+    ignore_default_args vypína --enable-automation flag, ktorý Microsoft
+    detekuje a blokuje. add_init_script skrýva navigator.webdriver.
+    Zdieľané so stiahni_odpovede_owa.py.
+    """
+    context = p.chromium.launch_persistent_context(
+        user_data_dir=str(USER_DATA_DIR),
+        channel="chrome",
+        headless=False,
+        viewport={"width": 1400, "height": 900},
+        permissions=["clipboard-read", "clipboard-write"],
+        args=["--disable-blink-features=AutomationControlled"],
+        ignore_default_args=["--enable-automation"],
+    )
+    context.add_init_script(
+        "Object.defineProperty(navigator, 'webdriver', "
+        "{get: () => undefined});"
+    )
+    return context
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[1])
     parser.add_argument("--test", action="store_true", help="1 nahodny servis")
@@ -416,22 +440,7 @@ def main():
     print(f"Spracovavam {len(targets)} servisov (mam emailov={len(records)})")
 
     with sync_playwright() as p:
-        # channel="chrome" -> pouzije systemovy Chrome Stable (nie Chrome for Testing).
-        # ignore_default_args vypina --enable-automation flag, ktory Microsoft
-        # detekuje a blokuje. add_init_script skryva navigator.webdriver.
-        context = p.chromium.launch_persistent_context(
-            user_data_dir=str(USER_DATA_DIR),
-            channel="chrome",
-            headless=False,
-            viewport={"width": 1400, "height": 900},
-            permissions=["clipboard-read", "clipboard-write"],
-            args=["--disable-blink-features=AutomationControlled"],
-            ignore_default_args=["--enable-automation"],
-        )
-        context.add_init_script(
-            "Object.defineProperty(navigator, 'webdriver', "
-            "{get: () => undefined});"
-        )
+        context = launch_owa_context(p)
         page = context.pages[0] if context.pages else context.new_page()
         page.goto(OWA_URL)
         page = wait_for_login(context, page)

@@ -1,5 +1,5 @@
 """
-Vyrobi .eml subory zo vzoru `VZOR - ...Candy Hoover CR s.r.o..eml`
+Vyrobi .eml subory zo vzoru `VZOR - ...Vzorová Firma s.r.o..eml`
 pre vsetky servisy z `unikaty_podla_H.xlsx`, ktorym priradime adekvatnu
 prilohu z `servis_subory/`.
 
@@ -29,7 +29,7 @@ except ImportError:
     import config_example as _cfg
 
 ROOT = Path(__file__).resolve().parent
-VZOR = ROOT / "VZOR - Žiadosť o informácie k doriešeniu reklamácií  – Candy Hoover ČR s.r.o..eml"
+VZOR = ROOT / "VZOR - Žiadosť o informácie k doriešeniu reklamácií  – Vzorová Firma s.r.o..eml"
 UNIKATY = ROOT / "unikaty_podla_H.xlsx"
 SERVIS_DIR = ROOT / "servis_subory"
 OUT_DIR = ROOT / "maily_servisom"

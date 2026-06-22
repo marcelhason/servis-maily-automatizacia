@@ -36,7 +36,7 @@ def sanitize_filename(name: str) -> str:
 
 
 def extract_service_name(h_value: str) -> str:
-    """Z '3000008563 - Candy Hoover ČR s.r.o.' vráti 'Candy Hoover ČR s.r.o.'."""
+    """Z '3000000001 - Vzorová Firma s.r.o.' vráti 'Vzorová Firma s.r.o.'."""
     if " - " in h_value:
         return h_value.split(" - ", 1)[1].strip()
     return h_value.strip()
@@ -122,10 +122,10 @@ def main():
     groups = load_groups()
     name_map = build_filename_map(groups)
 
-    # v test móde len 2 servisy: Candy Hoover ČR s.r.o. a Mc TREE a.s.
+    # v test móde len 2 servisy: Vzorová Firma s.r.o. a Druhá Firma a.s.
     if test_mode:
-        wanted = {"3000008563 - Candy Hoover ČR s.r.o.",
-                  "3000003226 - Mc TREE a.s."}
+        wanted = {"3000000001 - Vzorová Firma s.r.o.",
+                  "3000000002 - Druhá Firma a.s."}
         targets = {h: rows for h, rows in groups.items() if h in wanted}
     else:
         targets = groups

@@ -42,7 +42,7 @@ from vyrob_maily import (  # noqa: E402
     to_quoted_printable_cp1250, encode_header_q, q_encode_filename,
 )
 
-VZOR2 = ROOT / "VZOR_2 - Žiadosť o informácie k doriešeniu reklamácií – Candy Hoover ČR s.r.o..eml"
+VZOR2 = ROOT / "VZOR_2 - Žiadosť o informácie k doriešeniu reklamácií – Vzorová Firma s.r.o..eml"
 
 # Boundaries prevzate z VZOR_2 (lokalne v ramci jedneho .eml, mozu byt fixne).
 BOUNDARY_004 = "_004_GVUPR03MB117227BB5E654EF827DD7C909C11A2GVUPR03MB11722eu_"

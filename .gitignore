@@ -1,5 +1,6 @@
 # --- Lokalna konfiguracia s osobnymi udajmi ---
 config.py
+.claude/settings.local.json
 
 # --- Prihlaseny profil prehliadaca (cookies, session) — NIKDY necommitovat ---
 owa_session/
@@ -10,6 +11,23 @@ owa_session/
 _logo.png
 servis_subory/
 maily_servisom/
+
+# --- Odpovede servisov a stav komunikacie (realne data) ---
+odpovede/
+odpovede_podla_servisov/
+prilohy/
+maily/
+stav_reklamacii.json
+DENNIK.md
+
+# --- Log a build artefakty (log obsahuje mena firiem a cisla hlaseni!) ---
+sap_nahraj_log.txt
+*.log
+build/
+dist/
+Tempsap_build/
+*.exe
+*.spec
 
 # --- Opustene experimenty (slepe ulicky) ---
 _archiv/
